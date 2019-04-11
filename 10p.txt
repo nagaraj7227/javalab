@@ -1,0 +1,73 @@
+package lab10;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/Test")
+public class Test extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public Test() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+		response.setContentType("text/html");
+		ArrayList<String>list=new ArrayList<String>();
+
+		PrintWriter out=response.getWriter();
+		list.add(request.getParameter("ename"));
+		list.add(request.getParameter("enum"));
+		list.add(request.getParameter("edept"));
+		list.add(request.getParameter("edoj"));
+
+		Connection con = null;
+		Statement st = null;
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("After loading SQLServerDriver:");
+
+			final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+			final String USER = "root";
+			final String PASS = "ushallnotpass"; 
+
+			final String DB_URL = "jdbc:mysql://127.0.0.1:3306/emp1";
+			// System.setProperty(JDBC_DRIVER,"");
+
+			con = DriverManager.getConnection(DB_URL,USER,PASS);    
+			System.out.println("Connected with default host.");
+
+			System.out.println("Inserting records into the table...");
+			st = con.createStatement();
+			int row=st.executeUpdate("Insert into Persons values('"+list.get(0)+"','"+list.get(1)+"','"+list.get(2)+"','"+list.get(3)+"');");
+			if(row>0){
+				Iterator itr=list.iterator();  
+				while(itr.hasNext()){  
+					out.println(itr.next());  
+				}  
+				out.print("Above Data Inserted Succesfully");    
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

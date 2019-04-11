@@ -1,0 +1,117 @@
+package helloworld;
+
+import java.util.Scanner;
+
+class LessBalanceException extends Exception {
+	String s1;
+	LessBalanceException(String s2)
+	{
+		s1=s2;
+	}
+	public String toString()
+	{
+		return("LessBalanceException: "+s1);
+	}
+}
+
+class TransationNotAllowed extends Exception{
+	String s1;
+	TransationNotAllowed(String s2)
+	{
+		s1=s2;
+	}
+
+	public String toString()
+	{
+		return("TransactionNotAllowed: "+s1);
+	}
+}
+
+class AxisBank{
+	String name;
+	String address;
+	String phone;
+	String pan;
+	String aadhar;
+	double balance;
+	
+	public AxisBank(String n,String a,String p,String p1,String a1,double b)
+	{
+		name=n;
+		address=a;
+		phone=p;
+		pan=p1;
+		aadhar=a1;
+		balance=b;
+	}
+	void deposit(double amt)
+	{
+		balance+=amt;
+	}
+	void withdraw(double amt)
+	{
+		try{
+			if(amt>4500)
+				throw new TransationNotAllowed("Exceeds per day limit(day limit is Rs.4500!!!)\n");
+			if((balance-amt)<1000)
+			{
+				throw new LessBalanceException("Minimum Balance Rs.1000 has to be maintained!!!\n");
+			}
+			else
+			{
+				balance-=amt;
+			}
+		}
+		catch(LessBalanceException e)
+		{
+			System.out.println(e);
+		}
+		catch(TransationNotAllowed e)
+		{
+			System.out.println(e);
+		}
+
+	}
+	public void display()
+	{
+		System.out.println("\n");
+		System.out.println("Name      : "+name);
+		System.out.println("Address   : "+address);
+		System.out.println("Phone No. : "+phone);
+		System.out.println("Pan No.   : "+pan);
+		System.out.println("Aadhar No.: "+aadhar);
+		System.out.println("Available Balance: "+balance);
+	}
+	public static void main(String arg[])
+	{
+		Scanner scan=new Scanner(System.in);
+		int choice=0;
+		double amt=0;
+		AxisBank a=new AxisBank("Premsai","Bengaluru","8660737439","645374","696957561670",5000);
+		a.display();
+		
+		do{
+			System.out.println("\n1.Deposit\n2.Withdraw\n");
+			choice=scan.nextInt();
+			
+			switch(choice)
+			{
+				case 1: System.out.print("Enter the amount to be Deposited: Rs. ");
+						amt=scan.nextDouble();
+						a.deposit(amt);
+						a.display();
+						break;
+				case 2: System.out.print("Enter the amount to be Withdrawn: Rs. ");
+						amt=scan.nextDouble();
+						a.withdraw(amt);
+						a.display();
+						break;
+				case 3:
+		
+				default:System.out.println("Enter the Valid option\n");
+			}
+		}while(choice!=3);
+		scan.close();
+	}
+}
+

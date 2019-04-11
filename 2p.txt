@@ -1,0 +1,58 @@
+package helloworld;
+import java.util.*;
+public abstract class Vehicle {
+	String fuel;
+	public Vehicle(String f)
+	{
+		fuel = f;
+	}
+	public void fuelstat(String v)
+	{
+		System.out.println(v+ "fuel:"+fuel);
+	}
+	public abstract void topspeed();
+	
+	public static void main(String[] args)
+	{
+		Scanner in = new Scanner (System.in);
+		System.out.println("enter fuel of car:");
+		String fc = in.nextLine();
+		System.out.println("enter fuel of bike:");
+		String fb = in.nextLine();
+		car c=new car(fc,150);
+		c.topspeed();
+		bike b = new bike(fb,100);
+		b.topspeed();
+		in.close();
+	}
+}
+	
+class car extends Vehicle{
+	public int ts;
+	public car(String f,int i)
+	{
+		super(f);
+		ts = i;
+		super.fuelstat("car");
+	}
+	
+	public void topspeed()
+	{
+		System.out.println("top speed of car:"+ts+"kmph");
+	}
+}
+
+class bike extends Vehicle{
+	public int ts;
+	public bike(String f,int i)
+	{
+		super(f);
+		ts = i;
+		super.fuelstat("bike");
+	}
+	public void topspeed()
+	{
+		System.out.println("top speed of bike:"+ts+"kmph");
+		
+	}
+}

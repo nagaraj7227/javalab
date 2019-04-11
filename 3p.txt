@@ -1,0 +1,62 @@
+package helloworld;
+import java.util.*;
+
+	interface tourplan
+	{
+		public abstract void chetohyd(String mode,double f);
+		public abstract void hydtoind(String mode,double f);
+		public abstract void indtoche(String mode,double f);
+	}
+	public class Travelagent implements tourplan
+	{
+		public double fare;
+		public String mode;
+		public double totalfare=0;
+		
+		
+		public void chetohyd(String mode,double fare)
+		{
+			System.out.println("travelling through"+mode+"chennai to hyd fare: "+fare);
+		}
+		
+		public void hydtoind(String mode,double fare)
+		{
+			System.out.println("travelling through"+mode+"hyd to indore fare: "+fare);
+		}
+		
+		public void indtoche(String mode,double fare)
+		{
+			System.out.println("travelling through"+mode+"indore to chennai fare: "+fare);
+		}
+		public void totalfare(double f1,double f2,double f3)
+		{
+			totalfare=f1+f2+f3;
+			System.out.println("total travel fare is: "+totalfare);
+		}
+		
+	
+
+
+public static void main(String[] args)
+{
+	Travelagent a = new Travelagent();
+	Scanner in = new Scanner(System.in);
+	System.out.println("enter mode of travelling: ");
+	String m=in.nextLine();
+	System.out.println("enter fare for che to hyd: ");
+	double f1=in.nextDouble();
+	System.out.println("enter fare for hyd to ind: ");
+	double f2=in.nextDouble();
+	System.out.println("enter fare for ind to che:");
+	double f3=in.nextDouble();
+	a.chetohyd(m,f1);
+	a.hydtoind(m,f2);
+	a.indtoche(m,f3);
+	a.totalfare(f1,f2,f3);
+
+in.close();
+}
+}
+
+
+
